@@ -9,7 +9,7 @@ fi
 if [ -f "$1" ]; then # file exists
 	FILEPATH=$1
 	FILENAME=$(basename $FILEPATH)
-	/Users/m/Applications/google-cloud-sdk/bin/gsutil -m cp "$FILEPATH" gs://serveon-site
+	/Applications/google-cloud-sdk/bin/gsutil -m cp "$FILEPATH" gs://serveon-site
 	/usr/local/bin/terminal-notifier -open "https://serveon.site/$FILENAME" -message "https://serveon.site/$FILENAME" -title "served on site" -subtitle="https://serveon.site/$1"
 fi
 if [ -d "$1" ]; then # directory exists

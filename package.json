@@ -2,17 +2,22 @@
   "name": "straight-up",
   "version": "0.0.1",
   "description": "right click upload to object storage for macos",
-  "main": "index.tsx",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc index.ts --outDir bin/ && mv bin/index.js bin/index.cjs && chmod +x bin/index.cjs"
+  },
+  "bin": {
+    "straight-up": "./bin/index.cjs"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.2.0"
+    "@types/node": "^22.2.0",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@bradenmacdonald/s3-lite-client": "npm:@jsr/bradenmacdonald__s3-lite-client@^0.7.6"
+    "@aws-sdk/client-s3": "^3.627.0"
   }
 }

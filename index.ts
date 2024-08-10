@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import { homedir } from "node:os";
-import process from "node:process";
-import fs from "node:fs/promises";
+import * as process from "node:process";
+import * as fs from "node:fs/promises";
 import { exec } from "node:child_process";
-import { S3Client } from "@bradenmacdonald/s3-lite-client";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 function getMacOsInfoPlist(engine, bucketName: string) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -84,6 +84,7 @@ function getMacOsDocumentWflow(endpoint: string) {
 // deno-lint-ignore require-await
 async function main() {
   const [operation, endpoint] = process.argv.slice(2);
+  const bucketName = endpoint.replace("s3://", ""); 
 
   if (operation === "setup") {
     if (!endpoint) {
@@ -95,10 +96,6 @@ async function main() {
       console.error("The endpoint must be an S3 bucket");
       return;
     }
-
-    // const buttonText = `Straight Up to ${endpoint}!`;
-
-    const bucketName = endpoint.replace("s3://", "");
 
     const outputDirectory = `${homedir()}/Library/Services`;
     const getInfoPlist = getMacOsInfoPlist("s3", bucketName);
@@ -115,34 +112,34 @@ async function main() {
     console.log("right-click on a file -> Services ->");
     console.log(`Upload to S3 - ${bucketName}!`);
   } else if (operation === "ship") {
-    const aws_access_key_id = process.env.AWS_ACCESS_KEY_ID;
-    const aws_secret_access_key = process.env.AWS_SECRET_ACCESS_KEY;
     const aws_region = process.env.AWS_REGION || "us-east-1";
 
-    if (!aws_access_key_id || !aws_secret_access_key) {
-      console.error(
-        "'AWS_ACCESS_KEY_ID' and 'AWS_SECRET_ACCESS_KEY' must be set",
-      );
-    }
+    const [_operation, _endpoint, filePath] = process.argv.slice(2);
 
     const s3 = new S3Client({
-      accessKey: aws_access_key_id,
-      secretKey: aws_secret_access_key,
       region: aws_region,
-      bucket: "serveon-test",
-      endPoint: "s3.amazonaws.com",
     });
 
-    const [_operation, endpoint, filePath] = process.argv.slice(2);
+    const Key = filePath.split("/").pop()!;
 
-    const content = await fs.readFile(filePath);
+    try {
+      const content = await fs.readFile(filePath);
 
-    await s3.putObject(filePath.split("/").pop()!, content);
+      const putCommand = new PutObjectCommand({
+        Bucket: bucketName,
+        Key,
+        Body: content
+      })
+  
+      await s3.send(putCommand);
+
+    } catch(e){
+      console.error(e);
+    }
 
     const osastr =
-      `osascript -e 'display notification "${filePath} uploaded to ${endpoint}" with title "Upload Complete!"'`;
-
-    exec(osastr, console.log);
+      `osascript -e 'display notification "s3://${bucketName}/${Key}" with title "Upload Complete!"'`;
+    exec(osastr);
   }
 }
-await main();
+main();

@@ -104,7 +104,6 @@ function getMacOsDocumentWflow(endpoint: string) {
 </plist>`;
 }
 
-// deno-lint-ignore require-await
 async function main() {
   const [operation, endpoint] = process.argv.slice(2);
   const bucketName = endpoint.replace("s3://", "");

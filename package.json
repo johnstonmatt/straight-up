@@ -1,0 +1,18 @@
+{
+  "name": "straight-up",
+  "version": "0.0.0",
+  "description": "right click upload to object storage for macos",
+  "main": "index.tsx",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.2.0"
+  },
+  "dependencies": {
+    "@bradenmacdonald/s3-lite-client": "npm:@jsr/bradenmacdonald__s3-lite-client@^0.7.6"
+  }
+}

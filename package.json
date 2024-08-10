@@ -1,6 +1,6 @@
 {
   "name": "straight-up",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "right click upload to object storage for macos",
   "main": "index.tsx",
   "type": "module",

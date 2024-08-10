@@ -4,7 +4,7 @@ import { homedir } from "node:os";
 import * as process from "node:process";
 import * as fs from "node:fs/promises";
 import { exec } from "node:child_process";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 function getMacOsInfoPlist(engine, bucketName: string) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -66,7 +66,7 @@ function getMacOsDocumentWflow(endpoint: string) {
                 <key>ActionParameters</key>
                 <dict>
                     <key>COMMAND_STRING</key>
-                    <string>npx straightup ship ${endpoint} "$@"</string>
+                    <string>npx straight-up ship ${endpoint} "$@"</string>
                     <key>shell</key>
                     <string>/bin/zsh</string>
                 </dict>
@@ -84,7 +84,7 @@ function getMacOsDocumentWflow(endpoint: string) {
 // deno-lint-ignore require-await
 async function main() {
   const [operation, endpoint] = process.argv.slice(2);
-  const bucketName = endpoint.replace("s3://", ""); 
+  const bucketName = endpoint.replace("s3://", "");
 
   if (operation === "setup") {
     if (!endpoint) {
@@ -128,12 +128,11 @@ async function main() {
       const putCommand = new PutObjectCommand({
         Bucket: bucketName,
         Key,
-        Body: content
-      })
-  
-      await s3.send(putCommand);
+        Body: content,
+      });
 
-    } catch(e){
+      await s3.send(putCommand);
+    } catch (e) {
       console.error(e);
     }
 

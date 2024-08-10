@@ -87,6 +87,19 @@ function getMacOsDocumentWflow(endpoint: string) {
             </dict>
         </dict>
     </array>
+    <key>connectors</key>
+    <dict/>
+    <key>workflowMetaData</key>
+    <dict>
+      <key>serviceInputTypeIdentifier</key>
+      <string>com.apple.Automator.fileSystemObject</string>
+      <key>serviceOutputTypeIdentifier</key>
+      <string>com.apple.Automator.nothing</string>
+      <key>serviceProcessesInput</key>
+      <integer>0</integer>
+      <key>workflowTypeIdentifier</key>
+      <string>com.apple.Automator.servicesMenu</string>
+    </dict>
 </dict>
 </plist>`;
 }

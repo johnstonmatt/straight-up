@@ -66,7 +66,11 @@ function getMacOsDocumentWflow(endpoint: string) {
                 <key>ActionParameters</key>
                   <dict>
                     <key>COMMAND_STRING</key>
-                    <string>/usr/local/bin/npx straight-up ship ${endpoint} "$@"</string>
+                    <string>
+                    #!/usr/bin/env bash
+                    export PATH="/usr/local/bin:$PATH"
+                    /usr/local/bin/npx straight-up ship '${endpoint}' "$@"
+                    </string>
                     <key>CheckedForUserDefaultShell</key>
                     <true/>
                     <key>inputMethod</key>

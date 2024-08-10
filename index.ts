@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/local/bin/node
 
 import { homedir } from "node:os";
 import * as process from "node:process";

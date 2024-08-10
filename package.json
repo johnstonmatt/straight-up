@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc index.ts --outDir bin/ && mv bin/index.js bin/index.cjs && chmod +x bin/index.cjs"
+    "build": "npx tsc index.ts --outDir bin/ && mv bin/index.js bin/index.cjs && chmod +x bin/index.cjs",
+    "prepublish": "npm run build"
   },
   "bin": {
     "straight-up": "./bin/index.cjs"

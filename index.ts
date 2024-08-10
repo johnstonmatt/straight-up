@@ -64,11 +64,17 @@ function getMacOsDocumentWflow(endpoint: string) {
                 <key>ActionName</key>
                 <string>Run Shell Script</string>
                 <key>ActionParameters</key>
-                <dict>
+                  <dict>
                     <key>COMMAND_STRING</key>
-                    <string>npx straight-up ship ${endpoint} "$@"</string>
+                    <string>/usr/local/bin/npx straight-up ship ${endpoint} "$@"</string>
+                    <key>CheckedForUserDefaultShell</key>
+                    <true/>
+                    <key>inputMethod</key>
+                    <integer>1</integer>
                     <key>shell</key>
-                    <string>/bin/zsh</string>
+                    <string>/bin/bash</string>
+                    <key>source</key>
+                    <string></string>
                 </dict>
                 <key>BundleIdentifier</key>
                 <string>com.apple.RunShellScript</string>
